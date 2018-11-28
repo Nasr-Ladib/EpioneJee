@@ -2,6 +2,30 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="EpioneJEE-ejb">
 		<jta-data-source>java:/MySqlDS</jta-data-source>
+		<class>model.Account</class>
+		<class>model.Appointment</class>
+		<class>model.AppointmentPK</class>
+		<class>model.Calendar</class>
+		<class>model.Chat</class>
+		<class>model.ChatPK</class>
+		<class>model.Cursus</class>
+		<class>model.Customrole</class>
+		<class>model.Customuserclaim</class>
+		<class>model.Customuserlogin</class>
+		<class>model.Customuserrole</class>
+		<class>model.Doctolib</class>
+		<class>model.Doctolibdoctor</class>
+		<class>model.Doctolibother</class>
+		<class>model.Identityrole</class>
+		<class>model.Identityuserclaim</class>
+		<class>model.Identityuserlogin</class>
+		<class>model.Identityuserrole</class>
+		<class>model.IdentityuserrolePK</class>
+		<class>model.Identityuser</class>
+		<class>model.Medicalfile</class>
+		<class>model.Message</class>
+		<class>model.Motif</class>
+		<class>model.User</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 		</properties>
