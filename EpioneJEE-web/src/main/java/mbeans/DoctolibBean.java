@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.persistence.Lob;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
@@ -65,11 +69,14 @@ public class DoctolibBean {
 		this.speciality = speciality;
 	}
 	
-	public String listDoctorsById(){
+	public Doctolibdoctor listDoctorsById(){
 
-
-		
-  		 return "AAAAAA";
+			Client client =ClientBuilder.newClient();
+			WebTarget target =client.target("http://localhost:15248/api/DotolibAPI?link=medecin-generaliste/callian/alexandre-belo");
+			//WebTarget link=target.queryParam("medecin-generaliste/callian/alexandre-belo");
+			Response response =target.request().get();
+			Doctolibdoctor result = response.readEntity(Doctolibdoctor.class);
+			return result ;
 
 	}
 	

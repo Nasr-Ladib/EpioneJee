@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 <ui:define name="content">
 <main class="theia-exception">
-<h:outputText value="#{doctolibBean.listDoctorsById()}" />
+<h:outputText value="#{doctolibBean.listDoctorsById().address}" />
 		<div id="results">
 			<div class="container">
 				<div class="row">
@@ -69,7 +69,7 @@
 					<div class="strip_list wow fadeIn">
 						<a href="#0" class="wish_bt"></a>
 						<figure>
-							<a href="detail-page.html"><h:graphicImage value="images/doctor_listing_1.jpg" alt=""/></a>
+							<a href="detail-page.html"><img src="#{doctolibBean.listDoctorsById().img}" alt=""/></a>
 						</figure>
 						<small>Pediatrician</small>
 						<h3>Dr. Cornfield</h3>

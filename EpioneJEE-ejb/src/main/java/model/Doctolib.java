@@ -40,9 +40,7 @@ public class Doctolib implements Serializable {
 	@JoinColumn(name="DoctolibOther_DoctolibId")
 	private Doctolibother doctolibother1;
 
-	//bi-directional one-to-one association to Doctolibdoctor
-	@OneToOne(mappedBy="doctolib")
-	private Doctolibdoctor doctolibdoctor;
+
 
 	//bi-directional one-to-one association to Doctolibother
 	@OneToOne(mappedBy="doctolib")
@@ -115,13 +113,7 @@ public class Doctolib implements Serializable {
 		this.doctolibother1 = doctolibother1;
 	}
 
-	public Doctolibdoctor getDoctolibdoctor() {
-		return this.doctolibdoctor;
-	}
 
-	public void setDoctolibdoctor(Doctolibdoctor doctolibdoctor) {
-		this.doctolibdoctor = doctolibdoctor;
-	}
 
 	public Doctolibother getDoctolibother2() {
 		return this.doctolibother2;

@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -10,12 +12,10 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Doctolibdoctor.findAll", query="SELECT d FROM Doctolibdoctor d")
-public class Doctolibdoctor implements Serializable {
+public class Doctolibdoctor extends Doctolib implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int doctolibId;
+
 
 	@Lob
 	private String adresseSocialSiege;
@@ -31,11 +31,12 @@ public class Doctolibdoctor implements Serializable {
 
 	@Lob
 	private String lng;
-
-	private byte memberAGA;
+	@Lob
+	private String skills;
 
 	@Lob
 	private String nbreInscriptionOrdre;
+
 
 	@Lob
 	private String nbreRCS;
@@ -51,23 +52,15 @@ public class Doctolibdoctor implements Serializable {
 
 	@Lob
 	private String statuts;
+	
 
-	//bi-directional one-to-one association to Doctolib
-	@OneToOne
-	@JoinColumn(name="DoctolibId")
-	private Doctolib doctolib;
+
+
 
 	public Doctolibdoctor() {
 	}
 
-	public int getDoctolibId() {
-		return this.doctolibId;
-	}
-
-	public void setDoctolibId(int doctolibId) {
-		this.doctolibId = doctolibId;
-	}
-
+	
 	public String getAdresseSocialSiege() {
 		return this.adresseSocialSiege;
 	}
@@ -108,13 +101,14 @@ public class Doctolibdoctor implements Serializable {
 		this.lng = lng;
 	}
 
-	public byte getMemberAGA() {
-		return this.memberAGA;
+	public String getSkills() {
+		return skills;
 	}
 
-	public void setMemberAGA(byte memberAGA) {
-		this.memberAGA = memberAGA;
+	public void setSkills(String skills) {
+		this.skills = skills;
 	}
+
 
 	public String getNbreInscriptionOrdre() {
 		return this.nbreInscriptionOrdre;
@@ -164,12 +158,6 @@ public class Doctolibdoctor implements Serializable {
 		this.statuts = statuts;
 	}
 
-	public Doctolib getDoctolib() {
-		return this.doctolib;
-	}
-
-	public void setDoctolib(Doctolib doctolib) {
-		this.doctolib = doctolib;
-	}
+	
 
 }
