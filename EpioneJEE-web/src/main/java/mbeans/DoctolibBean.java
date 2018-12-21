@@ -1,25 +1,29 @@
 package mbeans;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.persistence.Lob;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 
-import org.primefaces.json.JSONArray;
-import org.primefaces.json.JSONObject;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
+import com.sun.org.apache.bcel.internal.generic.RET;
+
+import interfaces.DoctolibServiceRemote;
 import model.*;
+import services.DoctolibService;
 
 @ManagedBean
-public class DoctolibBean {
+public class DoctolibBean implements Serializable{
 
-	
+	DoctolibServiceRemote doctolibservice= new DoctolibService();
 	private String address;
 
+	private MapModel simpleModel;
 
 	private String img;
 
@@ -28,6 +32,8 @@ public class DoctolibBean {
 	private String path;
 
 	private String speciality;
+
+
 
 	public String getAddress() {
 		return address;
@@ -68,16 +74,30 @@ public class DoctolibBean {
 	public void setSpeciality(String speciality) {
 		this.speciality = speciality;
 	}
-	
-	public Doctolibdoctor listDoctorsById(){
 
-			Client client =ClientBuilder.newClient();
-			WebTarget target =client.target("http://localhost:15248/api/DotolibAPI?link=medecin-generaliste/callian/alexandre-belo");
-			//WebTarget link=target.queryParam("medecin-generaliste/callian/alexandre-belo");
-			Response response =target.request().get();
-			Doctolibdoctor result = response.readEntity(Doctolibdoctor.class);
-			return result ;
+    public MapModel markers(String speciality, String location, String page) {
+    	MapModel  simpleModel = new DefaultMapModel();
+          for(Doctolibdoctor doc : doctolibservice.listDoctors(speciality, location, page)){
+        	  LatLng coord1 = new LatLng(Double.parseDouble(doc.getLat()), Double.parseDouble(doc.getLng()));
+        	  simpleModel.addOverlay(new Marker(coord1, doc.getAddress()));
+          }
+       return simpleModel;
+    }
+  
+    public MapModel getSimpleModel() {
+        return simpleModel;
+    }
 
+	public List<Doctolibdoctor> listDoctors(String speciality, String location, String page){
+
+	return	doctolibservice.listDoctors(speciality, location, page);
+		
 	}
+	
+	public Doctolibdoctor showDoctors(String link){
+
+		return	doctolibservice.showDoctor(link);
+			
+		}
 	
 }

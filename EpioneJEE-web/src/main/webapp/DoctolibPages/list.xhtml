@@ -2,10 +2,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui"
+	 xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/template.xhtml"
+	>
 <ui:define name="content">
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAjsIpyXFoB7_5_E2DgO_-CTDMHKM0cW4I" type="text/javascript"></script>
+
 <main class="theia-exception">
-<h:outputText value="#{doctolibBean.listDoctorsById().address}" />
 		<div id="results">
 			<div class="container">
 				<div class="row">
@@ -14,8 +18,8 @@
 					</div>
 					<div class="col-md-6">
 						<div class="search_bar_list">
-							<p:commandButton type="text" class="form-control" placeholder="Ex. Specialist, Name, Doctor..."></p:commandButton>
-							<p:commandButton type="submit" value="Search"></p:commandButton>
+							<p:inputText type="text" class="form-control" placeholder="Ex. Specialist, Name, Doctor..."></p:inputText>
+							<p:inputText type="submit" value="Search"></p:inputText>
 						</div>
 					</div>
 				</div>
@@ -31,11 +35,8 @@
 					<li>
 						<h6>Type</h6>
 						<div class="switch-field">
-							<p:commandButton type="radio" id="all" name="type_patient" value="all" checked="true"></p:commandButton>
 							<label for="all">All</label>
-							<p:commandButton type="radio" id="doctors" name="type_patient" value="doctors"></p:commandButton>
 							<label for="doctors">Doctors</label>
-							<p:commandButton type="radio" id="clinics" name="type_patient" value="clinics"></p:commandButton>
 							<label for="clinics">Clinics</label>
 						</div>
 					</li>
@@ -65,15 +66,16 @@
 		<div class="container margin_60_35">
 			<div class="row">
 				<div class="col-lg-7">
+        <ui:repeat value="#{doctolibBean.listDoctors('','','')}" var="item">
 
 					<div class="strip_list wow fadeIn">
 						<a href="#0" class="wish_bt"></a>
 						<figure>
-							<a href="detail-page.html"><img src="#{doctolibBean.listDoctorsById().img}" alt=""/></a>
+							<a href="detail-page.html"><img src="#{item.img}" alt=""/></a>
 						</figure>
-						<small>Pediatrician</small>
-						<h3>Dr. Cornfield</h3>
-						<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cuodo....</p>
+						<small><h:outputText value="#{item.speciality}"/></small>
+						<h3><h:outputText value="Dr. #{item.name}" /></h3>
+						<p><h:outputText value="#{item.presentationProfession.substring(0,90)}..." /></p>
 						<span class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i> <small>(145)</small></span>
 						<a href="badges.html" data-toggle="tooltip" data-placement="top" data-original-title="Badge Level" class="badge_list_1"><img src="img/badges/badge_1.svg" width="15" height="15" alt=""/></a>
 						<ul>
@@ -82,8 +84,9 @@
 							<li><a href="detail-page.html">Book now</a></li>
 						</ul>
 					</div>
-					<!-- /strip_list -->
+				
 
+				        </ui:repeat>   
 				
 					<nav aria-label="" class="add_top_20">
 						<ul class="pagination pagination-sm">
@@ -103,16 +106,20 @@
 				<!-- /col -->
 				
 				<aside class="col-lg-5" id="sidebar">
-					<div id="map_listing" class="normal_list">
-					</div>
-				</aside>
+					
+       <p:gmap center="46.8306226,0.241841" zoom="5" type="ROADMAP" style="width:520px;height:550px" model="#{doctolibBean.init('','','')}" />
+       		
+					         
+			
+            </aside>
 				<!-- /aside -->
 				
 			</div>
 			<!-- /row -->
 		</div>
 		<!-- /container -->
-	</main>
+	</main>	
 	<!-- /main -->
+
 	</ui:define>
 	</ui:composition>
