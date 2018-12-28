@@ -41,7 +41,7 @@ public class DoctolibService implements DoctolibServiceRemote {
 	public Doctolibdoctor showDoctor(String link ){
 
 		Client client =ClientBuilder.newClient();
-		WebTarget target =client.target("http://localhost:15248/api/doctolib?link="+link+"");
+		WebTarget target =client.target("http://localhost:15248/api/doctolibdoctor?link="+link+"");
 		//WebTarget link=target.queryParam("medecin-generaliste/callian/alexandre-belo");
 		Response response =target.request().get();
 		Doctolibdoctor result = response.readEntity(Doctolibdoctor.class);

@@ -83,7 +83,14 @@ public class DoctolibBean implements Serializable{
           }
        return simpleModel;
     }
-  
+    public MapModel marker(String link) {
+    	MapModel  simpleModel = new DefaultMapModel();
+          Doctolibdoctor doc = doctolibservice.showDoctor(link);
+        	  LatLng coord1 = new LatLng(Double.parseDouble(doc.getLat()), Double.parseDouble(doc.getLng()));
+        	  simpleModel.addOverlay(new Marker(coord1, doc.getAddress()));
+          
+       return simpleModel;
+    }
     public MapModel getSimpleModel() {
         return simpleModel;
     }
@@ -96,7 +103,7 @@ public class DoctolibBean implements Serializable{
 	
 	public Doctolibdoctor showDoctors(String link){
 
-		return	doctolibservice.showDoctor(link);
+		return	doctolibservice.showDoctor("psychiatre/paris/adrien-barret");
 			
 		}
 	
