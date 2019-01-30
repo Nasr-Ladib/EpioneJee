@@ -40,6 +40,7 @@ public class User implements Serializable {
 	@Lob
 	private String email;
 
+
 	private byte emailConfirmed;
 
 	@Lob
@@ -788,4 +789,8 @@ public class User implements Serializable {
 		return users4;
 	}
 
+	@Override
+	public String toString() {
+		return "User [address=" + address + ", email=" + email + ", firstName=" + firstName + "]";
+	}
 }

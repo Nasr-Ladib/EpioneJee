@@ -1,10 +1,18 @@
 package mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
+import javax.servlet.annotation.WebServlet;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -20,7 +28,8 @@ import services.DoctolibService;
 @ManagedBean
 public class DoctolibBean implements Serializable{
 
-	DoctolibServiceRemote doctolibservice= new DoctolibService();
+	@EJB
+	DoctolibService doctolibservice;
 	private String address;
 
 	private MapModel simpleModel;
@@ -32,8 +41,27 @@ public class DoctolibBean implements Serializable{
 	private String path;
 
 	private String speciality;
+	
+	private static Doctolibdoctor doctolib;
+	
+	private static User user;
 
+    
+	public static User getUser() {
+		return user;
+	}
 
+	public static void setUser(User user) {
+		DoctolibBean.user = user;
+	}
+
+	public Doctolibdoctor getDoctolib() {
+		return doctolib;
+	}
+
+	public void setDoctolib(Doctolibdoctor doctolib) {
+		this.doctolib = doctolib;
+	}
 
 	public String getAddress() {
 		return address;
@@ -83,6 +111,14 @@ public class DoctolibBean implements Serializable{
           }
        return simpleModel;
     }
+    public MapModel markersFilter(String speciality, String location, String availabilities) {
+    	MapModel  simpleModel = new DefaultMapModel();
+          for(Doctolibdoctor doc : doctolibservice.listDoctorFiltred(speciality, location, availabilities)){
+        	  LatLng coord1 = new LatLng(Double.parseDouble(doc.getLat()), Double.parseDouble(doc.getLng()));
+        	  simpleModel.addOverlay(new Marker(coord1, doc.getPath()));
+          }
+       return simpleModel;
+    }
     public MapModel marker(String link) {
     	MapModel  simpleModel = new DefaultMapModel();
           Doctolibdoctor doc = doctolibservice.showDoctor(link);
@@ -100,11 +136,41 @@ public class DoctolibBean implements Serializable{
 	return	doctolibservice.listDoctors(speciality, location, page);
 		
 	}
+
+	public String search(String search){
+		System.out.println(doctolibservice.search(search));
+		return  doctolibservice.search(search);
+	}
 	
 	public Doctolibdoctor showDoctors(String link){
-
-		return	doctolibservice.showDoctor("psychiatre/paris/adrien-barret");
-			
+		return	doctolibservice.showDoctor(link);
 		}
+	public List<Doctolibdoctor> listDoctorsFiltred(String speciality, String location, String availabilities){
+		
+			return doctolibservice.listDoctorsFiltred(speciality, location, availabilities);
+		}
+	public String login(){
+		System.out.println(address);
+		user=doctolibservice.getUserByMail(address);
+		if(user.getAddress()==null){
+			return "/DoctolibPages/login.jsf";
+		}
+		return "/DoctolibPages/list.jsf?faces-redirect=true";
+	}
 	
+	public String logout(){
+		user.setAddress(null);
+		return "/DoctolibPages/login.jsf?faces-redirect=true";
+		
+	}
+	
+	public String lat(){
+		System.out.println(user);
+		return user.getBioghrapy();
+	} 
+	
+	public String lng(){
+		System.out.println(user);
+		return user.getLastName();
+	} 
 }
